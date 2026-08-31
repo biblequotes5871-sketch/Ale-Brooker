@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0A2540">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="description" content="Buy, Sell & Rent Properties in Ethiopia - Ale Brokering">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="https://ui-avatars.com/api/?name=AB&background=0A2540&color=fff&size=192">
+  <title>Ale Brokering and Commission Company | Home</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: {
+              50: '#e6f0ff',
+              100: '#b3d1ff',
+              200: '#80b3ff',
+              300: '#4d94ff',
+              400: '#1a75ff',
+              500: '#0052cc',
+              600: '#0A2540',
+              700: '#081c30',
+              800: '#061424',
+              900: '#040c18',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="bg-gray-50 text-gray-800">
+  <!-- Header -->
+  <header id="header" class="bg-primary-600 text-white sticky top-0 z-50 shadow-lg">
+    <div class="container mx-auto px-4">
+      <div class="flex items-center justify-between py-3">
+        <!-- Logo -->
+        <a href="index.html" class="flex items-center gap-3">
+          <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center">
+            <i class="fas fa-building text-primary-600 text-xl"></i>
+          </div>
+          <div>
+            <h1 class="text-lg font-bold leading-tight" data-i18n="company_name">Ale Brokering</h1>
+            <p class="text-xs text-blue-200" data-i18n="company_tagline">& Commission Company</p>
+          </div>
+        </a>
+
+        <!-- Desktop Nav -->
+        <nav class="hidden lg:flex items-center gap-6">
+          <a href="index.html" class="hover:text-blue-200 transition" data-i18n="nav_home">Home</a>
+          <a href="properties.html" class="hover:text-blue-200 transition" data-i18n="nav_properties">Properties</a>
+          <a href="wanted.html" class="hover:text-blue-200 transition" data-i18n="nav_wanted">Wanted</a>
+          <a href="projects.html" class="hover:text-blue-200 transition" data-i18n="nav_projects">Projects</a>
+          <a href="experts.html" class="hover:text-blue-200 transition" data-i18n="nav_experts">Experts</a>
+          <a href="login.html?redirect=post" class="hover:text-blue-200 transition" data-i18n="nav_post">Post Listing</a>
+        </nav>
+
+        <!-- Right side -->
+        <div class="flex items-center gap-3">
+          <!-- Language Switcher -->
+          <div class="relative">
+            <button id="langBtn" class="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-primary-700 hover:bg-primary-800 transition text-sm">
+              <i class="fas fa-globe"></i>
+              <span id="currentLang">EN</span>
+            </button>
+            <div id="langMenu" class="hidden absolute right-0 mt-2 w-32 bg-white text-gray-800 rounded-lg shadow-xl py-1 z-50">
+              <button onclick="setLanguage('en')" class="w-full text-left px-4 py-2 hover:bg-gray-100">English</button>
+              <button onclick="setLanguage('am')" class="w-full text-left px-4 py-2 hover:bg-gray-100">አማርኛ</button>
+            </div>
+          </div>
+
+          <!-- Auth buttons -->
+          <div id="authButtons" class="flex items-center gap-2">
+            <a href="login.html" class="px-4 py-1.5 text-sm border border-white rounded-lg hover:bg-white hover:text-primary-600 transition">Sign In</a>
+          </div>
+          <div id="userMenu" class="hidden relative">
+            <button id="userBtn" class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-primary-700 hover:bg-primary-800">
+              <i class="fas fa-user-circle"></i>
+              <span id="userName" class="text-sm"></span>
+            </button>
+            <div id="userDropdown" class="hidden absolute right-0 mt-2 w-48 bg-white text-gray-800 rounded-lg shadow-xl py-1 z-50">
+              <a href="dashboard.html" class="block px-4 py-2 hover:bg-gray-100"><i class="fas fa-tachometer-alt mr-2"></i><span data-i18n="nav_dashboard">Dashboard</span></a>
+              <a href="admin.html" id="adminLink" class="hidden block px-4 py-2 hover:bg-gray-100"><i class="fas fa-cog mr-2"></i><span data-i18n="nav_admin">Admin Panel</span></a>
+              <button onclick="logout()" class="w-full text-left px-4 py-2 hover:bg-gray-100 text-red-600"><i class="fas fa-sign-out-alt mr-2"></i><span data-i18n="nav_logout">Logout</span></button>
+            </div>
+          </div>
+
+          <!-- Mobile menu button -->
+          <button id="mobileMenuBtn" class="lg:hidden p-2">
+            <i class="fas fa-bars text-xl"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile Nav -->
+    <div id="mobileNav" class="hidden lg:hidden bg-primary-700 border-t border-primary-500">
+      <nav class="container mx-auto px-4 py-3 flex flex-col gap-2">
+        <a href="index.html" class="py-2" data-i18n="nav_home">Home</a>
+        <a href="properties.html" class="py-2" data-i18n="nav_properties">Properties</a>
+        <a href="wanted.html" class="py-2" data-i18n="nav_wanted">Wanted</a>
+        <a href="projects.html" class="py-2" data-i18n="nav_projects">Projects</a>
+        <a href="experts.html" class="py-2" data-i18n="nav_experts">Experts</a>
+        <a href="login.html?redirect=post" class="py-2" data-i18n="nav_post">Post Listing</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="relative bg-gradient-to-br from-primary-600 via-primary-700 to-primary-900 text-white overflow-hidden">
+    <div class="absolute inset-0 opacity-10">
+      <div class="absolute top-20 left-10 w-72 h-72 bg-white rounded-full blur-3xl"></div>
+      <div class="absolute bottom-10 right-10 w-96 h-96 bg-blue-300 rounded-full blur-3xl"></div>
+    </div>
+    <div class="container mx-auto px-4 py-16 md:py-24 relative z-10">
+      <div class="max-w-3xl mx-auto text-center">
+        <h2 class="text-3xl md:text-5xl font-bold mb-4 leading-tight" data-i18n="hero_title">Find Your Perfect Property in Ethiopia</h2>
+        <p class="text-lg md:text-xl text-blue-100 mb-8" data-i18n="hero_subtitle">Buy, Sell or Rent Properties, Villas, Lands, Stores & More. Connect with Experts & Projects.</p>
+        
+        <!-- Search Box -->
+        <div class="bg-white rounded-2xl shadow-2xl p-4 md:p-6 text-left">
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-3">
+            <div>
+              <label class="block text-xs font-medium text-gray-500 mb-1" data-i18n="search_type">Type</label>
+              <select id="searchType" class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-gray-800 focus:ring-2 focus:ring-primary-500 focus:border-transparent">
+                <option value="">All Types</option>
+                <option value="property">Property</option>
+                <option value="villa">Villa</option>
+                <option value="condo">Condominium</option>
+                <option value="guest_house">Guest House</option>
+                <option value="land">Land</option>
+                <option value="store">Store</option>
+                <option value="building">Building</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-gray-500 mb-1" data-i18n="search_purpose">Purpose</label>
+              <select id="searchPurpose" class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-gray-800 focus:ring-2 focus:ring-primary-500 focus:border-transparent">
+                <option value="">Buy or Rent</option>
+                <option value="sale">For Sale</option>
+                <option value="rent">For Rent</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-gray-500 mb-1" data-i18n="search_location">Location</label>
+              <input type="text" id="searchLocation" placeholder="City, Area..." class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-gray-800 focus:ring-2 focus:ring-primary-500 focus:border-transparent">
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-gray-500 mb-1">Min Price (ETB)</label>
+              <input type="number" id="searchMinPrice" placeholder="Min" min="0" class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-gray-800 focus:ring-2 focus:ring-primary-500 focus:border-transparent">
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-gray-500 mb-1">Max Price (ETB)</label>
+              <input type="number" id="searchMaxPrice" placeholder="Max" min="0" class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-gray-800 focus:ring-2 focus:ring-primary-500 focus:border-transparent">
+            </div>
+            <div class="flex items-end">
+              <button onclick="performSearch()" class="w-full bg-primary-600 hover:bg-primary-700 text-white font-semibold py-2.5 px-6 rounded-lg transition flex items-center justify-center gap-2">
+                <i class="fas fa-search"></i>
+                <span data-i18n="search_btn">Search</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <section class="bg-white border-b">
+    <div class="container mx-auto px-4 py-8">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+        <div>
+          <div class="text-3xl font-bold text-primary-600" id="statListings">0</div>
+          <div class="text-sm text-gray-500" data-i18n="stat_listings">Active Listings</div>
+        </div>
+        <div>
+          <div class="text-3xl font-bold text-primary-600" id="statWanted">0</div>
+          <div class="text-sm text-gray-500" data-i18n="stat_wanted">Wanted Requests</div>
+        </div>
+        <div>
+          <div class="text-3xl font-bold text-primary-600" id="statProjects">0</div>
+          <div class="text-sm text-gray-500" data-i18n="stat_projects">Ongoing Projects</div>
+        </div>
+        <div>
+          <div class="text-3xl font-bold text-primary-600" id="statExperts">0</div>
+          <div class="text-sm text-gray-500" data-i18n="stat_experts">Experts</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Recent Searches -->
+  <section class="bg-gray-50 border-b py-6">
+    <div class="container mx-auto px-4">
+      <div class="flex items-center gap-3 mb-3">
+        <i class="fas fa-history text-primary-600"></i>
+        <h3 class="font-semibold text-gray-700">Recent Searches</h3>
+      </div>
+      <div id="recentSearches" class="flex flex-wrap gap-2">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- AI Market Analysis -->
+  <section class="py-12 bg-white">
+    <div class="container mx-auto px-4">
+      <div class="flex items-center gap-3 mb-6">
+        <div class="w-10 h-10 bg-primary-100 rounded-lg flex items-center justify-center">
+          <i class="fas fa-chart-line text-primary-600"></i>
+        </div>
+        <div>
+          <h2 class="text-2xl font-bold text-primary-600">AI Market Analysis</h2>
+          <p class="text-sm text-gray-500">Smart insights based on current listings</p>
+        </div>
+      </div>
+      <div id="marketAnalysis">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Properties -->
+  <section class="py-12 md:py-16">
+    <div class="container mx-auto px-4">
+      <div class="flex items-center justify-between mb-8">
+        <div>
+          <h2 class="text-2xl md:text-3xl font-bold text-primary-600" data-i18n="featured_title">Featured Properties</h2>
+          <p class="text-gray-500 mt-1" data-i18n="featured_subtitle">Handpicked listings for you</p>
+        </div>
+        <a href="properties.html" class="text-primary-600 hover:text-primary-700 font-medium flex items-center gap-1">
+          <span data-i18n="view_all">View All</span>
+          <i class="fas fa-arrow-right text-sm"></i>
+        </a>
+      </div>
+      <div id="featuredListings" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Categories -->
+  <section class="py-12 bg-white">
+    <div class="container mx-auto px-4">
+      <h2 class="text-2xl md:text-3xl font-bold text-primary-600 text-center mb-8" data-i18n="categories_title">Browse by Category</h2>
+      <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4">
+        <a href="properties.html?type=property" class="category-card bg-gray-50 hover:bg-primary-50 border border-gray-200 hover:border-primary-300 rounded-xl p-5 text-center transition group">
+          <i class="fas fa-home text-3xl text-primary-600 mb-3 group-hover:scale-110 transition"></i>
+          <div class="font-medium text-sm" data-i18n="cat_property">Property</div>
+        </a>
+        <a href="properties.html?type=villa" class="category-card bg-gray-50 hover:bg-primary-50 border border-gray-200 hover:border-primary-300 rounded-xl p-5 text-center transition group">
+          <i class="fas fa-house-chimney text-3xl text-primary-600 mb-3 group-hover:scale-110 transition"></i>
+          <div class="font-medium text-sm" data-i18n="cat_villa">Villa</div>
+        </a>
+        <a href="properties.html?type=condo" class="category-card bg-gray-50 hover:bg-primary-50 border border-gray-200 hover:border-primary-300 rounded-xl p-5 text-center transition group">
+          <i class="fas fa-building text-3xl text-primary-600 mb-3 group-hover:scale-110 transition"></i>
+          <div class="font-medium text-sm" data-i18n="cat_condo">Condominium</div>
+        </a>
+        <a href="properties.html?type=guest_house" class="category-card bg-gray-50 hover:bg-primary-50 border border-gray-200 hover:border-primary-300 rounded-xl p-5 text-center transition group">
+          <i class="fas fa-hotel text-3xl text-primary-600 mb-3 group-hover:scale-110 transition"></i>
+          <div class="font-medium text-sm" data-i18n="cat_guest">Guest House</div>
+        </a>
+        <a href="properties.html?type=land" class="category-card bg-gray-50 hover:bg-primary-50 border border-gray-200 hover:border-primary-300 rounded-xl p-5 text-center transition group">
+          <i class="fas fa-map text-3xl text-primary-600 mb-3 group-hover:scale-110 transition"></i>
+          <div class="font-medium text-sm" data-i18n="cat_land">Land</div>
+        </a>
+        <a href="properties.html?type=store" class="category-card bg-gray-50 hover:bg-primary-50 border border-gray-200 hover:border-primary-300 rounded-xl p-5 text-center transition group">
+          <i class="fas fa-store text-3xl text-primary-600 mb-3 group-hover:scale-110 transition"></i>
+          <div class="font-medium text-sm" data-i18n="cat_store">Store</div>
+        </a>
+        <a href="properties.html?type=building" class="category-card bg-gray-50 hover:bg-primary-50 border border-gray-200 hover:border-primary-300 rounded-xl p-5 text-center transition group">
+          <i class="fas fa-city text-3xl text-primary-600 mb-3 group-hover:scale-110 transition"></i>
+          <div class="font-medium text-sm" data-i18n="cat_building">Building</div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section class="py-12 md:py-16">
+    <div class="container mx-auto px-4">
+      <h2 class="text-2xl md:text-3xl font-bold text-primary-600 text-center mb-10" data-i18n="how_title">How It Works</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="text-center">
+          <div class="w-16 h-16 bg-primary-100 text-primary-600 rounded-full flex items-center justify-center text-2xl mx-auto mb-4">
+            <i class="fas fa-user-plus"></i>
+          </div>
+          <h3 class="font-bold text-lg mb-2" data-i18n="how_1_title">Create Account</h3>
+          <p class="text-gray-500 text-sm" data-i18n="how_1_desc">Register for free and access all features of the platform.</p>
+        </div>
+        <div class="text-center">
+          <div class="w-16 h-16 bg-primary-100 text-primary-600 rounded-full flex items-center justify-center text-2xl mx-auto mb-4">
+            <i class="fas fa-plus-circle"></i>
+          </div>
+          <h3 class="font-bold text-lg mb-2" data-i18n="how_2_title">Post or Search</h3>
+          <p class="text-gray-500 text-sm" data-i18n="how_2_desc">List your property for sale/rent or search with powerful filters.</p>
+        </div>
+        <div class="text-center">
+          <div class="w-16 h-16 bg-primary-100 text-primary-600 rounded-full flex items-center justify-center text-2xl mx-auto mb-4">
+            <i class="fas fa-handshake"></i>
+          </div>
+          <h3 class="font-bold text-lg mb-2" data-i18n="how_3_title">Connect & Close</h3>
+          <p class="text-gray-500 text-sm" data-i18n="how_3_desc">Contact owners or agents and complete your transaction safely.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-12 bg-primary-600 text-white">
+    <div class="container mx-auto px-4 text-center">
+      <h2 class="text-2xl md:text-3xl font-bold mb-3" data-i18n="cta_title">Ready to List Your Property?</h2>
+      <p class="text-blue-100 mb-6 max-w-xl mx-auto" data-i18n="cta_subtitle">Join thousands of property owners and agents. Post your listing in minutes.</p>
+      <a href="login.html?redirect=post" class="inline-flex items-center gap-2 bg-white text-primary-600 font-semibold px-8 py-3 rounded-lg hover:bg-blue-50 transition">
+        <i class="fas fa-plus"></i>
+        <span data-i18n="cta_btn">Post Free Listing</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-primary-900 text-white pt-12 pb-6">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+        <div>
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center">
+              <i class="fas fa-building text-primary-600"></i>
+            </div>
+            <span class="font-bold text-lg">Ale Brokering</span>
+          </div>
+          <p class="text-blue-200 text-sm" data-i18n="footer_about">Your trusted partner for buying, selling and renting properties across Ethiopia.</p>
+        </div>
+        <div>
+          <h4 class="font-semibold mb-3" data-i18n="footer_quick">Quick Links</h4>
+          <ul class="space-y-2 text-sm text-blue-200">
+            <li><a href="properties.html" class="hover:text-white">Properties</a></li>
+            <li><a href="wanted.html" class="hover:text-white">Wanted</a></li>
+            <li><a href="projects.html" class="hover:text-white">Projects</a></li>
+            <li><a href="experts.html" class="hover:text-white">Experts</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-semibold mb-3" data-i18n="footer_support">Support</h4>
+          <ul class="space-y-2 text-sm text-blue-200">
+            <li><a href="https://t.me/alebrokering" target="_blank" class="hover:text-white">Help Center</a></li>
+            <li><a href="contact.html" class="hover:text-white">Contact Us</a></li>
+            <li><a href="terms.html" class="hover:text-white">Terms of Service</a></li>
+            <li><a href="privacy.html" class="hover:text-white">Privacy Policy</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-semibold mb-3" data-i18n="footer_contact">Contact</h4>
+          <ul class="space-y-2 text-sm text-blue-200">
+            <li><i class="fas fa-map-marker-alt mr-2"></i> Addis Ababa, Ethiopia</li>
+            <li><i class="fas fa-phone mr-2"></i> +251 911 000 000</li>
+            <li><i class="fas fa-envelope mr-2"></i> info@alebrokering.com</li>
+          </ul>
+        </div>
+      </div>
+      <div class="border-t border-primary-700 pt-6 text-center text-sm text-blue-300">
+        <p>&copy; 2026 Ale Brokering and Commission Company. <span data-i18n="footer_rights">All rights reserved.</span></p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/i18n.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      initApp();
+      renderFeaturedListings();
+      updateStats();
+      renderRecentSearches();
+      renderMarketAnalysis();
+    });
+
+    // Register Service Worker for PWA (installable app)
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./sw.js')
+        .then(reg => console.log('PWA ready'))
+        .catch(err => console.log('SW error', err));
+    }
+  </script>
+</body>
+</html>

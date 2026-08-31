@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us | Ale Brokering</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config={theme:{extend:{colors:{primary:{50:'#e6f0ff',100:'#b3d1ff',600:'#0A2540',700:'#081c30',900:'#040c18'}}}}}</script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body class="bg-gray-50">
+  <header class="bg-primary-600 text-white py-4">
+    <div class="container mx-auto px-4 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-3">
+        <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center">
+          <i class="fas fa-building text-primary-600"></i>
+        </div>
+        <span class="font-bold text-lg">Ale Brokering</span>
+      </a>
+      <a href="index.html" class="text-sm hover:underline">Back to Home</a>
+    </div>
+  </header>
+
+  <main class="container mx-auto px-4 py-10 max-w-xl">
+    <div class="text-center mb-8">
+      <h1 class="text-3xl font-bold text-primary-600">Contact Us</h1>
+      <p class="text-gray-500 mt-2">Send us a message. It goes directly to yonigelan7@gmail.com</p>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow-lg border p-6 md:p-8">
+      <!-- FormSubmit sends email directly without backend -->
+      <form action="https://formsubmit.co/yonigelan7@gmail.com" method="POST">
+        <input type="hidden" name="_subject" value="New message from Ale Brokering website">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_next" value="https://formsubmit.co/thank-you">
+
+        <div class="mb-4">
+          <label class="block text-sm font-medium text-gray-700 mb-1">Your Name</label>
+          <input type="text" name="name" required class="w-full border border-gray-300 rounded-lg px-4 py-2.5" placeholder="Full name">
+        </div>
+        <div class="mb-4">
+          <label class="block text-sm font-medium text-gray-700 mb-1">Your Email</label>
+          <input type="email" name="email" required class="w-full border border-gray-300 rounded-lg px-4 py-2.5" placeholder="you@example.com">
+        </div>
+        <div class="mb-4">
+          <label class="block text-sm font-medium text-gray-700 mb-1">Subject</label>
+          <input type="text" name="subject" required class="w-full border border-gray-300 rounded-lg px-4 py-2.5" placeholder="Subject of your message">
+        </div>
+        <div class="mb-6">
+          <label class="block text-sm font-medium text-gray-700 mb-1">Message</label>
+          <textarea name="message" required rows="5" class="w-full border border-gray-300 rounded-lg px-4 py-2.5" placeholder="Write your message here..."></textarea>
+        </div>
+        <button type="submit" class="w-full bg-primary-600 hover:bg-primary-700 text-white font-semibold py-3 rounded-lg">
+          <i class="fas fa-paper-plane mr-2"></i> Send Message
+        </button>
+      </form>
+
+      <div class="mt-6 pt-6 border-t text-center text-sm text-gray-500">
+        <p>Messages are sent directly to:</p>
+        <a href="mailto:yonigelan7@gmail.com" class="text-primary-600 font-medium">yonigelan7@gmail.com</a>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

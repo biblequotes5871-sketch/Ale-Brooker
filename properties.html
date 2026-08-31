@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Properties | Ale Brokering</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: { 50:'#e6f0ff',100:'#b3d1ff',200:'#80b3ff',300:'#4d94ff',400:'#1a75ff',500:'#0052cc',600:'#0A2540',700:'#081c30',800:'#061424',900:'#040c18' }
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="bg-gray-50">
+  <!-- Header (same structure) -->
+  <header class="bg-primary-600 text-white sticky top-0 z-50 shadow-lg">
+    <div class="container mx-auto px-4">
+      <div class="flex items-center justify-between py-3">
+        <a href="index.html" class="flex items-center gap-3">
+          <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center">
+            <i class="fas fa-building text-primary-600 text-xl"></i>
+          </div>
+          <div>
+            <h1 class="text-lg font-bold leading-tight" data-i18n="company_name">Ale Brokering</h1>
+            <p class="text-xs text-blue-200" data-i18n="company_tagline">& Commission Company</p>
+          </div>
+        </a>
+        <nav class="hidden lg:flex items-center gap-6">
+          <a href="index.html" class="hover:text-blue-200" data-i18n="nav_home">Home</a>
+          <a href="properties.html" class="text-blue-200 font-medium" data-i18n="nav_properties">Properties</a>
+          <a href="wanted.html" class="hover:text-blue-200" data-i18n="nav_wanted">Wanted</a>
+          <a href="projects.html" class="hover:text-blue-200" data-i18n="nav_projects">Projects</a>
+          <a href="experts.html" class="hover:text-blue-200" data-i18n="nav_experts">Experts</a>
+          <a href="login.html?redirect=post" class="hover:text-blue-200" data-i18n="nav_post">Post Listing</a>
+        </nav>
+        <div class="flex items-center gap-3">
+          <div class="relative">
+            <button id="langBtn" class="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-primary-700 hover:bg-primary-800 text-sm">
+              <i class="fas fa-globe"></i> <span id="currentLang">EN</span>
+            </button>
+            <div id="langMenu" class="hidden absolute right-0 mt-2 w-32 bg-white text-gray-800 rounded-lg shadow-xl py-1 z-50">
+              <button onclick="setLanguage('en')" class="w-full text-left px-4 py-2 hover:bg-gray-100">English</button>
+              <button onclick="setLanguage('am')" class="w-full text-left px-4 py-2 hover:bg-gray-100">አማርኛ</button>
+            </div>
+          </div>
+          <div id="authButtons" class="flex items-center gap-2">
+            <a href="login.html" class="px-4 py-1.5 text-sm border border-white rounded-lg hover:bg-white hover:text-primary-600" data-i18n="nav_login">Sign In</a>
+          </div>
+          <div id="userMenu" class="hidden relative">
+            <button id="userBtn" class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-primary-700">
+              <i class="fas fa-user-circle"></i> <span id="userName" class="text-sm"></span>
+            </button>
+            <div id="userDropdown" class="hidden absolute right-0 mt-2 w-48 bg-white text-gray-800 rounded-lg shadow-xl py-1 z-50">
+              <a href="dashboard.html" class="block px-4 py-2 hover:bg-gray-100"><i class="fas fa-tachometer-alt mr-2"></i><span data-i18n="nav_dashboard">Dashboard</span></a>
+              <a href="admin.html" id="adminLink" class="hidden block px-4 py-2 hover:bg-gray-100"><i class="fas fa-cog mr-2"></i><span data-i18n="nav_admin">Admin Panel</span></a>
+              <button onclick="logout()" class="w-full text-left px-4 py-2 hover:bg-gray-100 text-red-600"><i class="fas fa-sign-out-alt mr-2"></i><span data-i18n="nav_logout">Logout</span></button>
+            </div>
+          </div>
+          <button id="mobileMenuBtn" class="lg:hidden p-2"><i class="fas fa-bars text-xl"></i></button>
+        </div>
+      </div>
+    </div>
+    <div id="mobileNav" class="hidden lg:hidden bg-primary-700 border-t border-primary-500">
+      <nav class="container mx-auto px-4 py-3 flex flex-col gap-2">
+        <a href="index.html" class="py-2" data-i18n="nav_home">Home</a>
+        <a href="properties.html" class="py-2" data-i18n="nav_properties">Properties</a>
+        <a href="wanted.html" class="py-2" data-i18n="nav_wanted">Wanted</a>
+        <a href="projects.html" class="py-2" data-i18n="nav_projects">Projects</a>
+        <a href="experts.html" class="py-2" data-i18n="nav_experts">Experts</a>
+        <a href="login.html?redirect=post" class="py-2" data-i18n="nav_post">Post Listing</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="container mx-auto px-4 py-8">
+    <h1 class="text-2xl md:text-3xl font-bold text-primary-600 mb-6" data-i18n="properties_title">All Properties</h1>
+
+    <div class="flex flex-col lg:flex-row gap-6">
+      <!-- Filters Sidebar -->
+      <aside class="lg:w-72 flex-shrink-0">
+        <div class="bg-white rounded-xl shadow-md border border-gray-100 p-5 sticky top-24">
+          <h2 class="font-semibold text-lg mb-4" data-i18n="filter_title">Filters</h2>
+          
+          <div class="mb-4">
+            <label class="block text-sm font-medium text-gray-600 mb-1" data-i18n="filter_type">Property Type</label>
+            <select id="filterType" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
+              <option value="">All Types</option>
+              <option value="property">Property</option>
+              <option value="villa">Villa</option>
+              <option value="condo">Condominium</option>
+              <option value="guest_house">Guest House</option>
+              <option value="land">Land</option>
+              <option value="store">Store</option>
+              <option value="building">Building</option>
+            </select>
+          </div>
+
+          <div class="mb-4">
+            <label class="block text-sm font-medium text-gray-600 mb-1" data-i18n="filter_purpose">Purpose</label>
+            <select id="filterPurpose" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
+              <option value="">Buy or Rent</option>
+              <option value="sale">For Sale</option>
+              <option value="rent">For Rent</option>
+            </select>
+          </div>
+
+          <div class="mb-4">
+            <label class="block text-sm font-medium text-gray-600 mb-1" data-i18n="filter_price">Price Range (ETB)</label>
+            <div class="flex gap-2">
+              <input type="number" id="filterMinPrice" placeholder="Min" class="w-1/2 border border-gray-300 rounded-lg px-3 py-2 text-sm">
+              <input type="number" id="filterMaxPrice" placeholder="Max" class="w-1/2 border border-gray-300 rounded-lg px-3 py-2 text-sm">
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <label class="block text-sm font-medium text-gray-600 mb-1" data-i18n="filter_bedrooms">Bedrooms</label>
+            <select id="filterBeds" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
+              <option value="">Any</option>
+              <option value="1">1+</option>
+              <option value="2">2+</option>
+              <option value="3">3+</option>
+              <option value="4">4+</option>
+              <option value="5">5+</option>
+            </select>
+          </div>
+
+          <div class="mb-4">
+            <label class="block text-sm font-medium text-gray-600 mb-1" data-i18n="filter_location">Location</label>
+            <input type="text" id="filterLocation" placeholder="City, Area..." class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
+          </div>
+
+          <button onclick="applyFilters()" class="w-full bg-primary-600 hover:bg-primary-700 text-white font-medium py-2.5 rounded-lg mb-2" data-i18n="apply_filters">Apply Filters</button>
+          <button onclick="clearFilters()" class="w-full border border-gray-300 text-gray-600 hover:bg-gray-50 font-medium py-2.5 rounded-lg" data-i18n="clear_filters">Clear</button>
+        </div>
+      </aside>
+
+      <!-- Results -->
+      <main class="flex-1">
+        <div class="flex items-center justify-between mb-4">
+          <p class="text-sm text-gray-500"><span id="resultCount">0</span> properties found</p>
+          <select id="sortBy" onchange="applyFilters()" class="border border-gray-300 rounded-lg px-3 py-1.5 text-sm">
+            <option value="newest">Newest</option>
+            <option value="price_low">Price: Low to High</option>
+            <option value="price_high">Price: High to Low</option>
+          </select>
+        </div>
+        <div id="listingsGrid" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
+          <!-- populated by JS -->
+        </div>
+        <div id="noResults" class="hidden text-center py-16">
+          <i class="fas fa-search text-4xl text-gray-300 mb-4"></i>
+          <p class="text-gray-500" data-i18n="no_results">No properties found. Try adjusting your filters.</p>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <footer class="bg-primary-900 text-white pt-10 pb-6 mt-12">
+    <div class="container mx-auto px-4 text-center text-sm text-blue-300">
+      <p>&copy; 2026 Ale Brokering and Commission Company. <span data-i18n="footer_rights">All rights reserved.</span></p>
+    </div>
+  </footer>
+
+  <script src="js/i18n.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      initApp();
+      // Pre-fill from URL
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('type')) document.getElementById('filterType').value = params.get('type');
+      if (params.get('purpose')) document.getElementById('filterPurpose').value = params.get('purpose');
+      if (params.get('location')) document.getElementById('filterLocation').value = params.get('location');
+      if (params.get('minPrice')) document.getElementById('filterMinPrice').value = params.get('minPrice');
+      if (params.get('maxPrice')) document.getElementById('filterMaxPrice').value = params.get('maxPrice');
+      applyFilters();
+    });
+
+    function applyFilters() {
+      let listings = getListings().filter(l => l.status === 'approved');
+      const type = document.getElementById('filterType').value;
+      const purpose = document.getElementById('filterPurpose').value;
+      const minPrice = parseInt(document.getElementById('filterMinPrice').value) || 0;
+      const maxPrice = parseInt(document.getElementById('filterMaxPrice').value) || Infinity;
+      const beds = parseInt(document.getElementById('filterBeds').value) || 0;
+      const location = document.getElementById('filterLocation').value.toLowerCase();
+      const sort = document.getElementById('sortBy').value;
+
+      if (type) listings = listings.filter(l => l.type === type);
+      if (purpose) listings = listings.filter(l => l.purpose === purpose);
+      listings = listings.filter(l => l.price >= minPrice && l.price <= maxPrice);
+      if (beds) listings = listings.filter(l => l.bedrooms >= beds);
+      if (location) listings = listings.filter(l => l.location.toLowerCase().includes(location));
+
+      if (sort === 'price_low') listings.sort((a,b) => a.price - b.price);
+      else if (sort === 'price_high') listings.sort((a,b) => b.price - a.price);
+      else listings.sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+      document.getElementById('resultCount').textContent = listings.length;
+      const grid = document.getElementById('listingsGrid');
+      const noRes = document.getElementById('noResults');
+      if (listings.length === 0) {
+        grid.innerHTML = '';
+        noRes.classList.remove('hidden');
+      } else {
+        noRes.classList.add('hidden');
+        grid.innerHTML = listings.map(l => createPropertyCard(l)).join('');
+      }
+    }
+
+    function clearFilters() {
+      document.getElementById('filterType').value = '';
+      document.getElementById('filterPurpose').value = '';
+      document.getElementById('filterMinPrice').value = '';
+      document.getElementById('filterMaxPrice').value = '';
+      document.getElementById('filterBeds').value = '';
+      document.getElementById('filterLocation').value = '';
+      applyFilters();
+    }
+  </script>
+</body>
+</html>

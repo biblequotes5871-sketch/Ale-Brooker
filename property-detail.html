@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Property Detail | Ale Brokering</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config={theme:{extend:{colors:{primary:{50:'#e6f0ff',100:'#b3d1ff',200:'#80b3ff',300:'#4d94ff',400:'#1a75ff',500:'#0052cc',600:'#0A2540',700:'#081c30',800:'#061424',900:'#040c18'}}}}}</script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="bg-gray-50">
+  <header class="bg-primary-600 text-white sticky top-0 z-50 shadow-lg">
+    <div class="container mx-auto px-4">
+      <div class="flex items-center justify-between py-3">
+        <a href="index.html" class="flex items-center gap-3">
+          <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center"><i class="fas fa-building text-primary-600 text-xl"></i></div>
+          <div><h1 class="text-lg font-bold" data-i18n="company_name">Ale Brokering</h1></div>
+        </a>
+        <a href="properties.html" class="text-sm hover:text-blue-200"><i class="fas fa-arrow-left mr-1"></i> Back to listings</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container mx-auto px-4 py-8" id="detailContent">
+    <div class="text-center py-20"><div class="spinner mx-auto"></div></div>
+  </main>
+
+  <script src="js/i18n.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      initApp();
+      const id = parseInt(new URLSearchParams(window.location.search).get('id'));
+      const listing = getListings().find(l => l.id === id);
+      const container = document.getElementById('detailContent');
+      if (!listing) {
+        container.innerHTML = '<p class="text-center text-gray-500 py-20">Property not found.</p>';
+        return;
+      }
+
+      const purposeBadge = listing.purpose === 'sale'
+        ? `<span class="badge-sale text-white text-sm font-semibold px-3 py-1 rounded-full">${t('for_sale')}</span>`
+        : `<span class="badge-rent text-white text-sm font-semibold px-3 py-1 rounded-full">${t('for_rent')}</span>`;
+
+      container.innerHTML = `
+        <div class="max-w-5xl mx-auto">
+          <div class="bg-white rounded-2xl shadow-lg overflow-hidden border">
+            <img src="${listing.image}" class="w-full h-64 md:h-96 object-cover" onerror="this.src='https://via.placeholder.com/800x400/0A2540/fff?text=Property'">
+            <div class="p-6 md:p-8">
+              <div class="flex flex-wrap items-center gap-3 mb-3">
+                ${purposeBadge}
+                <span class="bg-gray-100 text-gray-700 text-sm px-3 py-1 rounded-full">${getTypeLabel(listing.type)}</span>
+              </div>
+              <h1 class="text-2xl md:text-3xl font-bold text-gray-900 mb-2">${listing.title}</h1>
+              <p class="text-gray-500 mb-4"><i class="fas fa-map-marker-alt text-primary-600 mr-1"></i>${listing.location}</p>
+              
+              <div class="text-3xl font-bold text-primary-600 mb-6">
+                ${formatPrice(listing.price)}${listing.purpose === 'rent' ? '<span class="text-base font-normal text-gray-500"> / month</span>' : ''}
+              </div>
+
+              <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                ${listing.bedrooms > 0 ? `<div class="bg-gray-50 rounded-lg p-4 text-center"><i class="fas fa-bed text-primary-600 text-xl mb-1"></i><p class="font-semibold">${listing.bedrooms}</p><p class="text-xs text-gray-500">Bedrooms</p></div>` : ''}
+                ${listing.bathrooms > 0 ? `<div class="bg-gray-50 rounded-lg p-4 text-center"><i class="fas fa-bath text-primary-600 text-xl mb-1"></i><p class="font-semibold">${listing.bathrooms}</p><p class="text-xs text-gray-500">Bathrooms</p></div>` : ''}
+                ${listing.area > 0 ? `<div class="bg-gray-50 rounded-lg p-4 text-center"><i class="fas fa-ruler-combined text-primary-600 text-xl mb-1"></i><p class="font-semibold">${listing.area} m²</p><p class="text-xs text-gray-500">Area</p></div>` : ''}
+                <div class="bg-gray-50 rounded-lg p-4 text-center"><i class="fas fa-calendar text-primary-600 text-xl mb-1"></i><p class="font-semibold">${listing.createdAt}</p><p class="text-xs text-gray-500">Listed</p></div>
+              </div>
+
+              <h2 class="font-semibold text-lg mb-2">Description</h2>
+              <p class="text-gray-600 mb-8 leading-relaxed">${listing.description}</p>
+
+              <div class="bg-primary-50 rounded-xl p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                  <p class="font-medium">Contact ${listing.userName}</p>
+                  <p class="text-sm text-gray-600">${listing.phone || 'Phone not provided'}</p>
+                </div>
+                <div class="flex gap-2">
+                  <a href="tel:${listing.phone}" class="bg-primary-600 hover:bg-primary-700 text-white px-6 py-2.5 rounded-lg font-medium"><i class="fas fa-phone mr-2"></i>Call</a>
+                  <a href="https://wa.me/${(listing.phone||'').replace(/\D/g,'')}" target="_blank" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2.5 rounded-lg font-medium"><i class="fab fa-whatsapp mr-2"></i>WhatsApp</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    });
+  </script>
+</body>
+</html>

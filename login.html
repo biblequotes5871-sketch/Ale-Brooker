@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0A2540">
+  <title>Sign In | Ale Brokering</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: { extend: { colors: { primary: { 50:'#e6f0ff',100:'#b3d1ff',200:'#80b3ff',300:'#4d94ff',400:'#1a75ff',500:'#0052cc',600:'#0A2540',700:'#081c30',800:'#061424',900:'#040c18' } } } }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+  <header class="bg-primary-600 text-white py-4">
+    <div class="container mx-auto px-4 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-3">
+        <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center">
+          <i class="fas fa-building text-primary-600"></i>
+        </div>
+        <span class="font-bold text-lg">Ale Brokering</span>
+      </a>
+      <div class="relative">
+        <button id="langBtn" class="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-primary-700 text-sm">
+          <i class="fas fa-globe"></i> <span id="currentLang">EN</span>
+        </button>
+        <div id="langMenu" class="hidden absolute right-0 mt-2 w-32 bg-white text-gray-800 rounded-lg shadow-xl py-1 z-50">
+          <button onclick="setLanguage('en')" class="w-full text-left px-4 py-2 hover:bg-gray-100">English</button>
+          <button onclick="setLanguage('am')" class="w-full text-left px-4 py-2 hover:bg-gray-100">አማርኛ</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-1 flex items-center justify-center px-4 py-12">
+    <div class="bg-white rounded-2xl shadow-xl border border-gray-100 w-full max-w-md p-8">
+      <div class="text-center mb-8">
+        <div class="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+          <i class="fas fa-sign-in-alt text-2xl text-primary-600"></i>
+        </div>
+        <h1 class="text-2xl font-bold text-primary-600">Sign In</h1>
+        <p class="text-gray-500 mt-1">Login with your registered email and password</p>
+      </div>
+
+      <form onsubmit="handleLoginRedirect(event)">
+        <div class="mb-4">
+          <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+          <input type="email" id="loginEmail" required class="w-full border border-gray-300 rounded-lg px-4 py-2.5" placeholder="you@example.com">
+        </div>
+        <div class="mb-6">
+          <label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+          <input type="password" id="loginPassword" required class="w-full border border-gray-300 rounded-lg px-4 py-2.5" placeholder="••••••••">
+        </div>
+        <button type="submit" class="w-full bg-primary-600 hover:bg-primary-700 text-white font-semibold py-3 rounded-lg">Sign In</button>
+      </form>
+
+      <div class="mt-6 text-center">
+        <p class="text-sm text-gray-500 mb-3">Don't have an account yet?</p>
+        <a href="register.html" class="inline-flex items-center justify-center w-full border-2 border-primary-600 text-primary-600 font-semibold py-3 rounded-lg hover:bg-primary-50 transition">
+          <i class="fas fa-user-plus mr-2"></i> Sign Up
+        </a>
+      </div>
+
