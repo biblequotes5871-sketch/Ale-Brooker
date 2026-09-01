@@ -22,15 +22,7 @@
         </div>
         <span class="font-bold text-lg">Ale Brokering</span>
       </a>
-      <div class="relative">
-        <button id="langBtn" class="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-primary-700 text-sm">
-          <i class="fas fa-globe"></i> <span id="currentLang">EN</span>
-        </button>
-        <div id="langMenu" class="hidden absolute right-0 mt-2 w-32 bg-white text-gray-800 rounded-lg shadow-xl py-1 z-50">
-          <button onclick="setLanguage('en')" class="w-full text-left px-4 py-2 hover:bg-gray-100">English</button>
-          <button onclick="setLanguage('am')" class="w-full text-left px-4 py-2 hover:bg-gray-100">አማርኛ</button>
-        </div>
-      </div>
+      <a href="login.html" class="text-sm border border-white px-3 py-1.5 rounded-lg hover:bg-white hover:text-primary-600">Sign In</a>
     </div>
   </header>
 
@@ -44,7 +36,7 @@
         <p class="text-gray-500 mt-1">Create your Ale Brokering account</p>
       </div>
 
-      <form onsubmit="handleRegisterWithTerms(event)">
+      <form id="registerForm">
         <div class="mb-4">
           <label class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
           <input type="text" id="regName" required class="w-full border border-gray-300 rounded-lg px-4 py-2.5" placeholder="Your full name">
@@ -66,24 +58,16 @@
           <input type="password" id="regConfirm" required class="w-full border border-gray-300 rounded-lg px-4 py-2.5" placeholder="Repeat password">
         </div>
 
-        <!-- Terms & Conditions -->
         <div class="mb-6 p-4 bg-gray-50 border border-gray-200 rounded-lg">
-          <p class="text-sm text-gray-700 mb-3">
-            Please read and accept our 
-            <a href="terms.html" target="_blank" class="text-primary-600 underline font-medium">Terms & Conditions</a> 
-            and 
-            <a href="privacy.html" target="_blank" class="text-primary-600 underline font-medium">Privacy Policy</a>.
-          </p>
-          <div class="flex gap-3">
-            <label class="flex items-center gap-2 cursor-pointer">
-              <input type="radio" name="terms" id="termsAccept" value="accept" required class="w-4 h-4 text-primary-600">
-              <span class="text-sm font-medium text-green-700">Accept</span>
-            </label>
-            <label class="flex items-center gap-2 cursor-pointer">
-              <input type="radio" name="terms" id="termsDecline" value="decline" class="w-4 h-4 text-red-600">
-              <span class="text-sm font-medium text-red-600">Decline</span>
-            </label>
-          </div>
+          <label class="flex items-start gap-3 cursor-pointer">
+            <input type="checkbox" id="termsAccept" class="mt-1 w-4 h-4">
+            <span class="text-sm text-gray-700">
+              I Accept the 
+              <a href="terms.html" target="_blank" class="text-primary-600 underline">Terms & Conditions</a>
+              and
+              <a href="privacy.html" target="_blank" class="text-primary-600 underline">Privacy Policy</a>
+            </span>
+          </label>
         </div>
 
         <button type="submit" class="w-full bg-primary-600 hover:bg-primary-700 text-white font-semibold py-3 rounded-lg">Create Account</button>
@@ -96,19 +80,67 @@
     </div>
   </main>
 
-  <script src="js/i18n.js"></script>
   <script src="js/data.js"></script>
   <script src="js/app.js"></script>
   <script>
-    function handleRegisterWithTerms(e) {
+    document.getElementById('registerForm').addEventListener('submit', function(e) {
       e.preventDefault();
-      const accepted = document.getElementById('termsAccept').checked;
-      if (!accepted) {
+
+      if (!document.getElementById('termsAccept').checked) {
         alert('You must Accept the Terms & Conditions and Privacy Policy to create an account.');
         return;
       }
-      handleRegister(e);
-    }
+
+      const name = document.getElementById('regName').value.trim();
+      const email = document.getElementById('regEmail').value.trim().toLowerCase();
+      const phone = document.getElementById('regPhone').value.trim();
+      const password = document.getElementById('regPassword').value;
+      const confirm = document.getElementById('regConfirm').value;
+
+      if (!name || !email || !password) {
+        alert('Please fill all required fields');
+        return;
+      }
+      if (password !== confirm) {
+        alert('Passwords do not match');
+        return;
+      }
+      if (password.length < 6) {
+        alert('Password must be at least 6 characters');
+        return;
+      }
+
+      const users = getUsers();
+      if (users.find(u => (u.email || '').toLowerCase() === email)) {
+        alert('Email already registered. Please Sign In instead.');
+        window.location.href = 'login.html';
+        return;
+      }
+
+      const newUser = {
+        id: 'user_' + Date.now(),
+        name: name,
+        email: email,
+        phone: phone,
+        password: password,
+        role: 'user'
+      };
+
+      users.push(newUser);
+      saveUsers(users);
+
+      // Verify save worked
+      const check = getUsers();
+      const saved = check.find(u => (u.email || '').toLowerCase() === email);
+      if (!saved) {
+        alert('Error saving account. Please try again.');
+        return;
+      }
+
+      setCurrentUser({ id: newUser.id, name: newUser.name, email: newUser.email, role: 'user', phone: newUser.phone });
+      alert('Registration successful! You can now use your email and password to Sign In.');
+      window.location.href = 'dashboard.html';
+    });
   </script>
 </body>
 </html>
