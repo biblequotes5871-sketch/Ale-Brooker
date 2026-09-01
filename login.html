@@ -63,4 +63,37 @@
           <i class="fas fa-user-plus mr-2"></i> Sign Up
         </a>
       </div>
+    </div>
+  </main>
 
+  <script src="js/i18n.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (getCurrentUser()) {
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('redirect') === 'post') window.location.href = 'post.html';
+        else window.location.href = 'dashboard.html';
+      }
+    });
+
+    function handleLoginRedirect(e) {
+      e.preventDefault();
+      const email = document.getElementById('loginEmail').value.trim().toLowerCase();
+      const password = document.getElementById('loginPassword').value;
+      const users = getUsers();
+      const user = users.find(u => (u.email || '').toLowerCase() === email && u.password === password);
+      if (user) {
+        setCurrentUser({ id: user.id, name: user.name, email: user.email, role: user.role, phone: user.phone });
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('redirect') === 'post') window.location.href = 'post.html';
+        else if (user.role === 'admin') window.location.href = 'admin.html';
+        else window.location.href = 'dashboard.html';
+      } else {
+        alert('Invalid email or password. If you are not registered, please Sign Up.');
+      }
+    }
+  </script>
+</body>
+</html>
