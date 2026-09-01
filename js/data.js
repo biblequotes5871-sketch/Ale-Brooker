@@ -244,15 +244,20 @@ function getExperts() {
 }
 
 function getUsers() {
+  const defaultAdmin = { id: 'admin', name: 'Admin User', email: 'admin@alebrokering.com', password: 'admin123', role: 'admin', phone: '+251911000000' };
   const data = localStorage.getItem('ale_users');
-  if (!data) {
-    const defaultUsers = [
-      { id: 'admin', name: 'Admin User', email: 'admin@alebrokering.com', password: 'admin123', role: 'admin', phone: '+251911000000' }
-    ];
-    localStorage.setItem('ale_users', JSON.stringify(defaultUsers));
-    return defaultUsers;
+  let users = data ? JSON.parse(data) : [];
+  // Always ensure admin account exists
+  const hasAdmin = users.some(u => u.email && u.email.toLowerCase() === 'admin@alebrokering.com');
+  if (!hasAdmin) {
+    users.unshift(defaultAdmin);
+    localStorage.setItem('ale_users', JSON.stringify(users));
   }
-  return JSON.parse(data);
+  if (!data) {
+    localStorage.setItem('ale_users', JSON.stringify(users.length ? users : [defaultAdmin]));
+    return users.length ? users : [defaultAdmin];
+  }
+  return users;
 }
 
 function saveUsers(users) {
