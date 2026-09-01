@@ -367,7 +367,7 @@ function handlePostListing(e) {
     status: user.role === 'admin' ? 'approved' : 'pending',
     userId: user.id,
     userName: user.name,
-    phone: user.phone || '',
+    phone: \'+251911000000\',  // always admin phone
     createdAt: new Date().toISOString().split('T')[0]
   };
 
