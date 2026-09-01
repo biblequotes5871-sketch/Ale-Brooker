@@ -40,6 +40,9 @@ function setupUserMenu() {
       e.stopPropagation();
       dropdown.classList.toggle('hidden');
     });
+    dropdown.addEventListener('click', (e) => {
+      e.stopPropagation();
+    });
     document.addEventListener('click', () => dropdown.classList.add('hidden'));
   }
 }
