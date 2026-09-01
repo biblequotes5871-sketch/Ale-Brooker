@@ -73,7 +73,7 @@
               <div class="bg-primary-50 rounded-xl p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
                   <p class="font-medium">Contact ${listing.userName}</p>
-                  
+                  <p class="text-sm text-gray-600">${listing.phone || 'Phone not provided'}</p>
                 </div>
                 <div class="flex gap-2">
                   <a href="tel:${listing.phone}" class="bg-primary-600 hover:bg-primary-700 text-white px-6 py-2.5 rounded-lg font-medium"><i class="fas fa-phone mr-2"></i>Call</a>
