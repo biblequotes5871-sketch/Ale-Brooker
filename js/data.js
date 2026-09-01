@@ -16,7 +16,7 @@ const DEFAULT_LISTINGS = [
     status: "approved",
     userId: "admin",
     userName: "Admin",
-    phone: "+251911000001",
+    phone: "+251911000000",
     createdAt: "2026-08-15"
   },
   {
@@ -34,7 +34,7 @@ const DEFAULT_LISTINGS = [
     status: "approved",
     userId: "admin",
     userName: "Admin",
-    phone: "+251911000001",
+    phone: "+251911000000",
     createdAt: "2026-08-18"
   },
   {
@@ -52,7 +52,7 @@ const DEFAULT_LISTINGS = [
     status: "approved",
     userId: "admin",
     userName: "Admin",
-    phone: "+251911000001",
+    phone: "+251911000000",
     createdAt: "2026-08-20"
   },
   {
@@ -70,7 +70,7 @@ const DEFAULT_LISTINGS = [
     status: "approved",
     userId: "admin",
     userName: "Admin",
-    phone: "+251911000001",
+    phone: "+251911000000",
     createdAt: "2026-08-22"
   },
   {
@@ -88,7 +88,7 @@ const DEFAULT_LISTINGS = [
     status: "approved",
     userId: "admin",
     userName: "Admin",
-    phone: "+251911000001",
+    phone: "+251911000000",
     createdAt: "2026-08-25"
   },
   {
@@ -106,7 +106,7 @@ const DEFAULT_LISTINGS = [
     status: "approved",
     userId: "admin",
     userName: "Admin",
-    phone: "+251911000001",
+    phone: "+251911000000",
     createdAt: "2026-08-28"
   }
 ];
@@ -200,12 +200,16 @@ const DEFAULT_EXPERTS = [
 
 // Storage helpers
 function getListings() {
+  const ADMIN_PHONE = '+251911000000';
   const data = localStorage.getItem('ale_listings');
   if (!data) {
-    localStorage.setItem('ale_listings', JSON.stringify(DEFAULT_LISTINGS));
-    return DEFAULT_LISTINGS;
+    const list = DEFAULT_LISTINGS.map(l => ({ ...l, phone: ADMIN_PHONE }));
+    localStorage.setItem('ale_listings', JSON.stringify(list));
+    return list;
   }
-  return JSON.parse(data);
+  // Always show admin phone on every listing
+  const listings = JSON.parse(data).map(l => ({ ...l, phone: ADMIN_PHONE }));
+  return listings;
 }
 
 function saveListings(listings) {
