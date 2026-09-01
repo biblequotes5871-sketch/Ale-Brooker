@@ -54,9 +54,12 @@
             <div id="userDropdown" class="hidden absolute right-0 mt-2 w-48 bg-white text-gray-800 rounded-lg shadow-xl py-1 z-50">
               <a href="dashboard.html" class="block px-4 py-2 hover:bg-gray-100"><span data-i18n="nav_dashboard">Dashboard</span></a>
               <a href="admin.html" id="adminLink" class="hidden block px-4 py-2 hover:bg-gray-100"><span data-i18n="nav_admin">Admin Panel</span></a>
-              <button onclick="logout()" class="w-full text-left px-4 py-2 hover:bg-gray-100 text-red-600"><span data-i18n="nav_logout">Logout</span></button>
+              <button type="button" onclick="logout()" class="w-full text-left px-4 py-2 hover:bg-gray-100 text-red-600"><span data-i18n="nav_logout">Logout</span></button>
             </div>
           </div>
+          <button type="button" id="headerLogoutBtn" onclick="logout()" class="hidden px-3 py-1.5 text-sm bg-red-600 hover:bg-red-700 rounded-lg">
+            <i class="fas fa-sign-out-alt mr-1"></i> Logout
+          </button>
           <button id="mobileMenuBtn" class="lg:hidden p-2"><i class="fas fa-bars text-xl"></i></button>
         </div>
       </div>
@@ -161,10 +164,14 @@
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       initApp();
-      if (!getCurrentUser()) {
+      const u = getCurrentUser();
+      if (!u) {
         alert('Please Sign In to post a listing.');
         window.location.href = 'login.html?redirect=post';
+        return;
       }
+      const lo = document.getElementById('headerLogoutBtn');
+      if (lo) lo.classList.remove('hidden');
     });
   </script>
 </body>
