@@ -91,7 +91,12 @@
         else if (user.role === 'admin') window.location.href = 'admin.html';
         else window.location.href = 'dashboard.html';
       } else {
-        alert('Invalid email or password. If you are not registered, please Sign Up.');
+        const emailExists = users.some(u => (u.email || '').toLowerCase() === email);
+        if (emailExists) {
+          alert('Wrong password. Please try again.');
+        } else {
+          alert('This email is not registered. Please Sign Up first.');
+        }
       }
     }
   </script>
